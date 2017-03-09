@@ -3,12 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "start": "NODE_ENV=dev node  index.js | bunyan",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "koa-logger": "^2.0.1"
+    "bunyan": "^1.8.8",
+    "koa": "^2.0.0-alpha.8",
+    "koa-body": "^2.0.0",
+    "koa-logger": "^2.0.1",
+    "koa-router": "^7.0.1"
   }
 }
