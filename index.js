@@ -1,3 +1,4 @@
+require('app-module-path').addPath(__dirname );
 const Koa = require('koa');
 const koaLogger = require('koa-logger');
 const logger = require('logger');
