@@ -1,4 +1,4 @@
-require('app-module-path').addPath(__dirname );
+require('app-module-path').addPath(__dirname);
 const Koa = require('koa');
 const koaLogger = require('koa-logger');
 const logger = require('logger');
@@ -8,12 +8,17 @@ const validate = require('koa-validate');
 const views = require('koa-views');
 const convert = require('koa-convert');
 const session = require('koa-generic-session');
-const File = require('koa-generic-session-file');
 const mongoose = require('mongoose');
+const passport = require('koa-passport');
 
+
+const authRouter = require('routes/auth.router');
+
+const gastoRouter = require('routes/gasto.router');
+const tipoGastoRouter = require('routes/tipogasto.router');
 const filmRouter = require('routes/film.router');
 const htmlRouter = require('routes/html.router');
-const mongoUri = 'mongodb://localhost:27017/films-db';
+const mongoUri = 'mongodb://localhost:27017/domestic-accounting';
 
 
 
@@ -28,14 +33,24 @@ const onDBReady = (err) => {
         app.use(koaLogger());
     }
 
+    var methodOverride = require('koa-methodoverride');
+
+    app.use(methodOverride('_method'));
+
+
     app.keys = ['claveSuperSecreta'];
 
     var CONFIG = {
-        key: 'koa:sess', /** (string) cookie key (default is koa:sess) */
-        maxAge: 86400000, /** (number) maxAge in ms (default is 1 days) */
-        overwrite: true, /** (boolean) can overwrite or not (default true) */
-        httpOnly: true, /** (boolean) httpOnly or not (default true) */
-        signed: true, /** (boolean) signed or not (default true) */
+        key: 'koa:sess',
+        /** (string) cookie key (default is koa:sess) */
+        maxAge: 86400000,
+        /** (number) maxAge in ms (default is 1 days) */
+        overwrite: true,
+        /** (boolean) can overwrite or not (default true) */
+        httpOnly: true,
+        /** (boolean) httpOnly or not (default true) */
+        signed: true,
+        /** (boolean) signed or not (default true) */
     };
 
 
@@ -57,8 +72,34 @@ const onDBReady = (err) => {
         }
     }));
 
-    app.use(htmlRouter.routes());
+    //Registramos passport
+
+    require('services/auth.service');
+
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+    app.use(authRouter.routes());
+
+    //lo pongo aki para que no pase autenticacion
+    app.use(tipoGastoRouter.routes());
+    app.use(gastoRouter.routes());
+
+
+    app.use(async (ctx, next) => {
+        if (!ctx.isAuthenticated()) {
+            ctx.redirect('/auth/login');
+            return;
+        }
+        await next();
+    });
+
     app.use(mount('/api/v1', filmRouter.routes()));
+
+
+
+
+    app.use(htmlRouter.routes());
 
     app.listen(3000, function (err) {
         if (err) {

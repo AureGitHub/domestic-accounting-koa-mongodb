@@ -1,6 +1,8 @@
+
 const logger = require('logger');
 const Router = require('koa-router');
 const FilmValidator = require('validators/film.validator');
+const mongoose = require('mongoose');
 
 const FilmModel = require('models/film.model');
 
@@ -36,11 +38,8 @@ class FilmRouter {
         ctx.body = await film.save();
     }
     static async delete(ctx) {
-        logger.info(`Deleting film with id ${ctx.params.id}`);
-        const numDeleted = await FilmModel.delete({
-            _id:
-            mongoose.Types.ObjectId(ctx.params.id)
-        });
+      logger.info(`Deleting film with id ${ctx.params.id}`);
+        const numDeleted = await FilmModel.remove({_id: mongoose.Types.ObjectId(ctx.params.id)});
         logger.debug('Elementos eliminados', numDeleted);
         if (numDeleted.result.ok <= 0) {
             ctx.throw(404, 'Film not found');

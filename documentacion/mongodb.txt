@@ -1,0 +1,20 @@
+db.gastos.aggregate([
+    {
+      $lookup:
+        {
+          from: "tipogastos",
+          localField: "IdTipoGesto",
+          foreignField: "_id",
+          as: "TipodeGasto"
+        }
+   },
+   {
+       $lookup:
+        {
+          from: "users",
+          localField: "IdUser",
+          foreignField: "_id",
+          as: "Usuario"
+        }
+   }
+])

@@ -19,10 +19,14 @@
     "koa-generic-session": "^1.11.5",
     "koa-generic-session-file": "^0.2.1",
     "koa-logger": "^2.0.1",
+    "koa-methodoverride": "^1.0.0",
     "koa-mount": "^2.0.0",
+    "koa-passport": "^3.0.0",
     "koa-router": "^7.0.1",
     "koa-validate": "^1.0.7",
     "koa-views": "^5.2.1",
-    "mongoose": "^4.8.6"
+    "mongoose": "^4.8.6",
+    "passport-http": "^0.3.0",
+    "passport-local": "^1.0.0"
   }
 }
