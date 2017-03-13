@@ -84,7 +84,7 @@ const onDBReady = (err) => {
     //lo pongo aki para que no pase autenticacion
     app.use(tipoGastoRouter.routes());
     app.use(gastoRouter.routes());
-
+ app.use(htmlRouter.routes());
 
     app.use(async (ctx, next) => {
         if (!ctx.isAuthenticated()) {
@@ -99,7 +99,7 @@ const onDBReady = (err) => {
 
 
 
-    app.use(htmlRouter.routes());
+   
 
     app.listen(3000, function (err) {
         if (err) {

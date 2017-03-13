@@ -1,0 +1,51 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../../partials/head %>
+</head>
+<body class="container">
+
+    <header>
+        <% include ../../partials/header %>
+    </header>
+
+    <main>
+        <div class="jumbotron">
+            <h1>Tipos de gastos</h1>
+            <p>
+
+                    <table class="table">
+                    <tbody>
+                     <tr>
+                        <th class="active">Descripcion</th>
+                        <th class="warning">Editar</th>
+                        <th class="danger">Borrar</th>
+                    </tr>
+
+                     <% lista.forEach(function(item) { %>
+                     <tr>
+                            <td class="active"><%= item.descripcion %></td>
+                            <td class="warning"><a href="/tipogasto/edit/<%=item._id %>" class="btn btn-warning" role="button" >Editar  </a></td>
+                            <td class="danger"> <a href="/tipogasto/delete/<%=item._id %>" class="btn btn-danger" role="button" > Borrar </a></td>
+                   
+                   </tr>
+                    <% }); %>
+
+                   
+                    </tbody>
+                    </table>
+
+
+            </p>
+            <p><a href="/tipogasto/new %>" class="btn btn-primary btn-lg" role="button" >Añadir tipo de gasto  </a>  </p>
+        </div>
+    </main>
+
+    <footer>
+        <% include ../../partials/footer %>
+    </footer>
+    
+</body>
+</html>

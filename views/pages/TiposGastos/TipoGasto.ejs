@@ -1,0 +1,46 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../../partials/head %>
+</head>
+<body class="container">
+
+    <header>
+        <% include ../../partials/header %>
+    </header>
+
+    <main>
+        <div class="jumbotron">
+            <h1>Tipo de gasto</h1>
+            <p>
+
+                    
+                <form action="<%= item.isNew ? '/tipogasto/create' : '/tipogasto/update'  %>"  method="POST">
+       
+                    
+                    <input type="hidden" name="id" value="<%= item.id %>">
+
+                    <div class="form-group">
+                    <label for="descripcion">descripcion</label>
+                    <input type="text" name="descripcion" class="form-control"  
+                        placeholder="descripcion" value="<%= item.descripcion %>" required>
+                </div>
+               
+               <button type="submit" class="btn btn-primary">Guardar</button>
+            
+            
+        </form>
+        <br/>
+        <br/>
+    <p><a href="/tipogasto/" > volver </a></p>
+    </div>
+    </main>
+
+    <footer>
+        <% include ../../partials/footer %>
+    </footer>
+    
+</body>
+</html>
