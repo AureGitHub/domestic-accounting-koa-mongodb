@@ -46,6 +46,14 @@ class AuthRouter {
         
     }
 
+     static async showError(ctx) {
+        
+         await ctx.render('pages/error.ejs');
+        
+    }
+
+  
+
 
 }
 
@@ -53,6 +61,7 @@ router.post('/sign-up', AuthRouter.createUser);
 router.get('/sign-up', AuthRouter.showSignUp);
 router.get('/login', AuthRouter.showLogin);
 router.get('/logout', AuthRouter.logout);
+router.get('/error', AuthRouter.showError);
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/auth/success',
     failureRedirect: '/auth/fail'

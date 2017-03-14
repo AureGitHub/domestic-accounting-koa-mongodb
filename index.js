@@ -40,9 +40,14 @@ const onDBReady = (err) => {
     }));
 
 
-    var methodOverride = require('koa-methodoverride');
+app.on('error', (err, ctx) =>
+{
+    logger.error('server error', err);
+    
+}
+ 
+);
 
-    app.use(methodOverride('_method'));
 
 
     app.keys = ['claveSuperSecreta'];

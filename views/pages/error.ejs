@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Error by ejs - <%= status %></title>
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-    <style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+ <style>
       body {
         padding: 50px 80px;
         font: 14px "Helvetica Neue", Helvetica, sans-serif;
@@ -25,25 +24,43 @@
         font-size: .8em;
       }
     </style>
-  </head>
-  <body>
-    <div id="error">
-      <h1>Error</h1>
-    <p>Looks like something broke!</p>
+</head>
+<body class="container">
+
+    <header>        
+    </header>
+    <main>
+         <div id="error">
+          <h1>Error  <%= env %></h1>
+      
+          <h2>Message:</h2>
+          <pre>
+            <code>
+    <%= error %>
+            </code>
+          </pre>
+          <h2>Stack:</h2>
+          <pre>
+            <code>
+    <%= stack %>
+            </code>
+          </pre>
+
+            <pre>
+            <code>
+             <a href="/" class="btn btn-primary" role="button" >
+                <span class="glyphicon glyphicon-home"></span> Inicio  
+            </a>
    
-      <h2>Message:</h2>
-      <pre>
-        <code>
-<%= error %>
-        </code>
-      </pre>
-      <h2>Stack:</h2>
-      <pre>
-        <code>
-<%= stack %>
-        </code>
-      </pre>
-  
+            </code>
+          </pre>
+      
     </div>
-  </body>
+    </main>
+
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+    
+</body>
 </html>
