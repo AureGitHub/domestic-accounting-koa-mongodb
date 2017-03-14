@@ -22,6 +22,11 @@ const error = require('koa-error');
 
 
 
+const onDBReady = (err) => {
+    if (err) {
+        logger.error('Error connecting', err);
+        throw new Error('Error connecting', err);
+    }
 
     const app = new Koa();
     if (process.env.NODE_ENV === 'dev') {
@@ -123,3 +128,6 @@ app.on('error', (err, ctx) =>
         }
         logger.info('Koa server listening in port 3000');
     });
+}
+
+mongoose.connect(mongoUri, onDBReady);
