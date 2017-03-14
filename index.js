@@ -116,7 +116,7 @@ app.on('error', (err, ctx) =>
     //app.use(mount('/api/v1', filmRouter.routes()));
    
 
-    app.listen(3000, function (err) {
+    app.listen(OPENSHIFT_NODEJS_PORT, function (err) {
         if (err) {
             logger.error('Error listening in port 3000', err);
             process.exit(1);
