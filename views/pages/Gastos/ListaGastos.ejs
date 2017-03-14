@@ -1,0 +1,73 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../../partials/head %>
+</head>
+<body class="container">
+
+    <header>
+        <% include ../../partials/header %>
+    </header>
+
+    <main>
+        <div class="jumbotron">
+            <h1>Gastos</h1>
+
+            <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                        <tbody>
+                        <tr>
+                            <th class="active">Grabado</th>
+                            <th class="active">Tipo</th>
+                            <th class="active">Cantidad</th>
+                            <th class="active">Comentario</th>
+                            <th class="active">Por</th>
+                            
+                            
+                            <th class="active">Editar</th>
+                            <th class="active">Borrar</th>
+                        </tr>
+
+                        <% lista.forEach(function(item) { %>
+                        <tr>
+                                
+                                <td ><%= item.fecha %></td>
+                                <td ><%= item.TipodeGasto[0].descripcion %></td>
+                                <td ><%= item.cantidad %></td>
+                                <td ><%= item.comentario %></td>
+                                <td ><%= item.Usuario[0].email %></td>
+                                
+                                
+                                <td class="warning"><a href="/gastos/edit/<%=item._id %>" class="btn btn-warning" role="button" >Editar  </a></td>
+                                <td class="danger"> <a href="/gastos/delete/<%=item._id %>" class="btn btn-danger" role="button" > Borrar </a></td>
+                    
+                    </tr>
+                        <% }); %>
+
+                   
+                    </tbody>
+                    </table>
+            </div>
+            
+            </div>
+
+            <div class="row">
+                <div class="col-md-2 col-md-offset-5">
+                   <a href="/gastos/new %>" class="btn btn-primary btn-lg" role="button" >
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Añadir gasto  
+                    </a>
+                </div>
+            </div>          
+            
+        </div>
+    </main>
+
+    <footer>
+        <% include ../../partials/footer %>
+    </footer>
+    
+</body>
+</html>

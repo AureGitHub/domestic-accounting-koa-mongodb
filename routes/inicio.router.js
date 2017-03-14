@@ -1,6 +1,6 @@
 const logger = require('logger');
 const Router = require('koa-router');
-class HtmlRouter {
+class InicioRouter {
     static async home(ctx) {
         await ctx.render('pages/index.ejs', {
             text: ctx.session.lastRequest || 'Empty'
@@ -14,6 +14,6 @@ class HtmlRouter {
     }
 }
 const router = new Router({});
-router.get('/', HtmlRouter.home);
-router.get('/about', HtmlRouter.about);
+router.get('/', InicioRouter.home);
+router.get('/about', InicioRouter.about);
 module.exports = router;

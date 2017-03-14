@@ -12,8 +12,22 @@
 
         <ul class="nav navbar-nav">
             <li><a href="/">Home</a></li>
-             <li><a href="/tipogasto">Tipos de Gastos</a></li>
+            <li><a href="/gastos"><span class="glyphicon glyphicon-euro" aria-hidden="true"></span> Gastos</a></li>
+            <li><a href="/tipogasto"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Tipos de Gastos</a></li>
         </ul>
+
+  <ul class="nav navbar-right">
+            
+             <li><a href="/auth/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>   
+          </ul>
+
+        <ul class="nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-user"> <%=user.email %></a></li>            
+             
+          </ul>
+
+         
+
       
     </div>
 </nav>

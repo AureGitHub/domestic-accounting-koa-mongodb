@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 const Gasto = new mongoose.Schema({    
-    IdUser : [{type: mongoose.Schema.Types.ObjectId, ref: 'User1'}],
+    fecha : { type: Date, default: Date.now , required: true },
+    IdUser : [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     IdTipoGesto : [{type: mongoose.Schema.Types.ObjectId, ref: 'TipoGasto'}],
-    comentario: { type: String, required: true, trim: true },
-    desde: { type: Date, default: Date.now , required: true },
+    cantidad :  { type: Number , required: true },
+    comentario: { type: String, required: false, trim: true },
+    desde: { type: Date, default: Date.now , required: false },
     hasta: { type: Date, default: Date.now, required: false }
 });
 module.exports = mongoose.model('Gasto', Gasto);

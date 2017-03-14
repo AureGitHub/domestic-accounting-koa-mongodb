@@ -1,0 +1,86 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../../partials/head %>
+</head>
+<body class="container">
+
+    <header>
+        <% include ../../partials/header %>
+    </header>
+
+    <main>
+        <div class="jumbotron">
+            <h1>Gasto</h1>
+            <p>                    
+                <form action="<%= item.isNew ? '/gastos/create' : '/gastos/update'  %>"  method="POST">
+       
+                    
+                    <input type="hidden" name="id" value="<%= item.id %>">
+                     <input type="hidden" name="IdUser" value="<%=user.id %>">
+
+                    <div class="form-group">
+                        <label for="fecha">Fecha</label>
+                        <input type="date" name="fecha" class="form-control"  
+                            placeholder="fecha" value="<%= item.fecha %>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="IdTipoGesto">Tipo de Gasto</label>
+
+                        <select class="form-control" name="IdTipoGesto" required>
+                          <% lstTipogasto.forEach(function(tipogasto) { 
+                              var selected = ( tipogasto.id == item.IdTipoGesto ) ? "selected" : "";
+                              %>
+                            <option value="<%= tipogasto.id %>" <%=selected %> ><%= tipogasto.descripcion %></option> 
+                          <% }); %>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad</label>
+                        <input type="number" step="any"  name="cantidad" class="form-control"  
+                            placeholder="cantidad" value="<%= item.cantidad %>" required>
+                    </div>
+                   
+
+                    <div class="form-group">
+                        <label for="comentario">Comentario</label>
+                        <textarea class="form-control" rows="2" id="comentario"></textarea>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="desde">Periodo Inicio</label>
+                        <input type="date" name="desde" class="form-control"  
+                            placeholder="inicio" value="<%= item.desde %>" >
+                    </div>
+
+                    
+
+                    <div class="form-group">
+                        <label for="hasta">Periodo Fin</label>
+                        <input type="date" name="hasta" class="form-control"  
+                            placeholder="fecha" value="<%= item.hasta %>" >
+                    </div>
+               
+               <button type="submit" class="btn btn-primary">Guardar</button>
+            
+            
+        </form>
+        <br/>
+        <br/>
+    <p><a href="/gastos/" > volver </a></p>
+    </div>
+    </main>
+
+    <footer>
+        <% include ../../partials/footer %>
+    </footer>
+    
+</body>
+</html>

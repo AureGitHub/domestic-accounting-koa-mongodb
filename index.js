@@ -13,12 +13,12 @@ const passport = require('koa-passport');
 
 
 const authRouter = require('routes/auth.router');
+const inicioRouter = require('routes/inicio.router');
 
 const gastoRouter = require('routes/gasto.router');
 const tipoGastoRouter = require('routes/tipogasto.router');
-const filmRouter = require('routes/film.router');
-const htmlRouter = require('routes/html.router');
 const mongoUri = 'mongodb://localhost:27017/domestic-accounting';
+const error = require('koa-error');
 
 
 
@@ -32,6 +32,13 @@ const onDBReady = (err) => {
     if (process.env.NODE_ENV === 'dev') {
         app.use(koaLogger());
     }
+
+    
+     app.use(error({
+      template: __dirname + '/views/pages/error.ejs',
+      engine: 'ejs'
+    }));
+
 
     var methodOverride = require('koa-methodoverride');
 
@@ -72,6 +79,14 @@ const onDBReady = (err) => {
         }
     }));
 
+
+   app.use(function *(next) {
+    this.state.title = 'My App';
+    this.state.email = 'me@myapp.com';
+    yield next;
+});
+
+  
     //Registramos passport
 
     require('services/auth.service');
@@ -82,9 +97,7 @@ const onDBReady = (err) => {
     app.use(authRouter.routes());
 
     //lo pongo aki para que no pase autenticacion
-    app.use(tipoGastoRouter.routes());
-    app.use(gastoRouter.routes());
- app.use(htmlRouter.routes());
+  
 
     app.use(async (ctx, next) => {
         if (!ctx.isAuthenticated()) {
@@ -93,12 +106,14 @@ const onDBReady = (err) => {
         }
         await next();
     });
+    
+    app.use(inicioRouter.routes());
+    app.use(tipoGastoRouter.routes());
+    app.use(gastoRouter.routes());
+    
 
-    app.use(mount('/api/v1', filmRouter.routes()));
 
-
-
-
+    //app.use(mount('/api/v1', filmRouter.routes()));
    
 
     app.listen(3000, function (err) {

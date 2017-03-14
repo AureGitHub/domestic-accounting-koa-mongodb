@@ -12,11 +12,11 @@ class AuthRouter {
 
 
     static async showSignUp(ctx) {
-        await ctx.render('sign-up.ejs');
+        await ctx.render('pages/sign-up.ejs');
     }
 
     static async showLogin(ctx) {
-        await ctx.render('login.ejs', { fail: false });
+        await ctx.render('pages/login.ejs', { fail: false });
     }
 
     static async createUser(ctx) {
@@ -33,17 +33,26 @@ class AuthRouter {
     }
 
     static async success(ctx) {
-        await ctx.render('index.ejs', { text: JSON.stringify(ctx.state.user) });
+        await ctx.render('pages/index.ejs');
     }
 
     static async fail(ctx) {
-        await ctx.render('login.ejs', { fail: true });
+        await ctx.render('pages/login.ejs', { fail: true });
     }
+
+     static async logout(ctx) {
+         await ctx.logout();
+         await ctx.render('pages/login.ejs');
+        
+    }
+
+
 }
 
 router.post('/sign-up', AuthRouter.createUser);
 router.get('/sign-up', AuthRouter.showSignUp);
 router.get('/login', AuthRouter.showLogin);
+router.get('/logout', AuthRouter.logout);
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/auth/success',
     failureRedirect: '/auth/fail'
