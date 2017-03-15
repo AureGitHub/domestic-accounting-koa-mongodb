@@ -24,102 +24,13 @@ const error = require('koa-error');
 
 
     const app = new Koa();
-    if (process.env.NODE_ENV === 'dev') {
-        app.use(koaLogger());
-    }
-
-    
-     app.use(error({
-      template: __dirname + '/views/pages/error.ejs',
-      engine: 'ejs'
-    }));
-
-
-app.on('error', (err, ctx) =>
-{
-    logger.error('server error', err);
-    
-}
- 
-);
-
-
-
-    app.keys = ['claveSuperSecreta'];
-
-    var CONFIG = {
-        key: 'koa:sess',
-        /** (string) cookie key (default is koa:sess) */
-        maxAge: 86400000,
-        /** (number) maxAge in ms (default is 1 days) */
-        overwrite: true,
-        /** (boolean) can overwrite or not (default true) */
-        httpOnly: true,
-        /** (boolean) httpOnly or not (default true) */
-        signed: true,
-        /** (boolean) signed or not (default true) */
-    };
-
-
-    validate(app);
-
-    app.use(body());
-    app.use(convert(session(CONFIG, app)));
-
-
-    app.use(async (ctx, next) => {
-        logger.info(`Last request was ${ctx.session.lastRequest}`);
-        ctx.session.lastRequest = new Date();
-        await next();
-    });
-
-    app.use(views(__dirname + '/views', {
-        map: {
-            ejs: 'ejs'
-        }
-    }));
-
-
-   app.use(function *(next) {
-    this.state.title = 'My App';
-    this.state.email = 'me@myapp.com';
-    yield next;
+   
+   
+   app.use(async (ctx, next) => {
+        ctx.body = 'My first middleware';
 });
 
-  
-    //Registramos passport
-
-    require('services/auth.service');
-
-    app.use(passport.initialize());
-    app.use(passport.session());
-
-    app.use(authRouter.routes());
-
-    //lo pongo aki para que no pase autenticacion
-  
-
-    app.use(async (ctx, next) => {
-        if (!ctx.isAuthenticated()) {
-            ctx.redirect('/auth/login');
-            return;
-        }
-        await next();
-    });
-    
-    app.use(inicioRouter.routes());
-    app.use(tipoGastoRouter.routes());
-    app.use(gastoRouter.routes());
-    
-
-
-    //app.use(mount('/api/v1', filmRouter.routes()));
-   
 
     app.listen(process.env.PORT || 8080, function (err) {
-        if (err) {
-            logger.error('Error listening in port 3000', err);
-            process.exit(1);
-        }
-        logger.info('Koa server listening in port 3000');
+       
     });
