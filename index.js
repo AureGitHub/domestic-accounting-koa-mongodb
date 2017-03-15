@@ -9,10 +9,9 @@ console.log(`The request url is ${ctx.url}`);
 ctx.body = 'My first middleware';
 });
 
-app.listen(process.env.PORT || 3000, function () {
-  console.log('Example app listening on port 3000!');
-});
+var port = process.env.PORT || 3000;
+app.listen(port);
 
 
 
-
+console.log('Listening to %s', port);
