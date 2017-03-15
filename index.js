@@ -17,7 +17,7 @@ const inicioRouter = require('routes/inicio.router');
 
 const gastoRouter = require('routes/gasto.router');
 const tipoGastoRouter = require('routes/tipogasto.router');
-const mongoUri = 'mongodb://localhost:27017/domestic-accounting';
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/domestic-accounting';
 //const mongoUri = 'mongodb://aure:jas11jas11@ds131510.mlab.com:31510/heroku_jhtzpgd7';
 
 const error = require('koa-error');
