@@ -35,10 +35,10 @@
                         <tr>
                                 
                                 <td ><%= item.fecha %></td>
-                                <td ><%= item.TipodeGasto ? item.TipodeGasto[0].descripcion : intem.IdTipoGesto %></td>
+                                <td ><%= item.TipodeGasto && item.TipodeGasto[0] ? item.TipodeGasto[0].descripcion : intem.IdTipoGesto %></td>
                                 <td ><%= item.cantidad %></td>
                                 <td ><%= item.comentario %></td>
-                                <td ><%= item.Usuario ? item.Usuario[0].email : intem.IdUser %></td>
+                                <td ><%= item.Usuario && item.Usuario[0] ? item.Usuario[0].email : intem.IdUser %></td>
                                 
                                 
                                 <td class="warning"><a href="/gastos/edit/<%=item._id %>" class="btn btn-warning" role="button" >Editar  </a></td>
