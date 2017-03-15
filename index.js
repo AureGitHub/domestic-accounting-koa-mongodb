@@ -1,9 +1,12 @@
 
-var express = require('express');
-var app = express();
+const Koa = require('koa');
 
-app.get('/', function (req, res) {
-  res.send('Hello World!');
+
+ const app = new Koa();
+
+app.use(async (ctx, next) => {
+console.log(`The request url is ${ctx.url}`);
+ctx.body = 'My first middleware';
 });
 
 app.listen(process.env.PORT || 3000, function () {
