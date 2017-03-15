@@ -1,0 +1,1 @@
+mongod --port 27017 --dbpath C:\Aure\Desarrollos\BD\MongoDB\data\db

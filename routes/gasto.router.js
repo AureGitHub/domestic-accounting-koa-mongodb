@@ -12,7 +12,7 @@ var dateFormat = require('dateformat');
 class GastoRouter {
     static async showget(ctx) {
         logger.info('Obtaining all  gastos');
-        let lstGastos = await GastoModel.aggregate([
+     /*   let lstGastos = await GastoModel.aggregate([
             {
             $lookup:
                 {
@@ -31,7 +31,25 @@ class GastoRouter {
                 as: "Usuario"
                 }
         }
+        ]);*/
+
+let lstGastos = await GastoModel.aggregate([
+            { "$lookup": {
+                "from": "tipogastos",
+                "localField": "IdTipoGesto",
+                "foreignField": "_id",
+                "as": "TipodeGasto"
+             }},
+               { "$lookup": {
+                "from": "users",
+                "localField": "IdUser",
+                "foreignField": "_id",
+                "as": "Usuario"
+             }}
         ]);
+
+
+        
 
         lstGastos.forEach(function(item) {
            item.fecha = dateFormat(item.fecha,"dd/mm/yyyy");
