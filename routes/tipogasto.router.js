@@ -10,6 +10,19 @@ const TipoGastoModel = require('models/tipo-gasto.model');
 
 class TipoGastoRouter {
 
+ static async get(ctx) {
+        logger.info('Obtaining all tipos de gastos');
+        let lstTipogasto = await TipoGastoModel.find();
+
+         if (!lstTipogasto) {
+            ctx.throw(404, 'No hay tipos de gastos');
+            return;
+        }
+        ctx.body = lstTipogasto;
+
+    }
+
+
     static async showget(ctx) {
         logger.info('Obtaining all tipos de gastos');
         let lstTipogasto = await TipoGastoModel.find();
@@ -71,7 +84,7 @@ const router = new Router({
     prefix: '/tipogasto'
 });
 
-
+router.get('/get/', TipoGastoRouter.get);
 router.get('/', TipoGastoRouter.showget);
 router.get('/edit/:id', TipoGastoRouter.showEdit);
 router.get('/new/', TipoGastoRouter.showNew);

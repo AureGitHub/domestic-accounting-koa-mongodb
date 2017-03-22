@@ -17,11 +17,12 @@ const inicioRouter = require('routes/inicio.router');
 
 const gastoRouter = require('routes/gasto.router');
 const tipoGastoRouter = require('routes/tipogasto.router');
-const mongoUri ='mongodb://aure:WzosYqUrgTToeaHl@cluster0-shard-00-00-r9lvk.mongodb.net:27017,cluster0-shard-00-01-r9lvk.mongodb.net:27017,cluster0-shard-00-02-r9lvk.mongodb.net:27017/domestic-accounting?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin';
+
+//const mongoUri ='mongodb://aure:WzosYqUrgTToeaHl@cluster0-shard-00-00-r9lvk.mongodb.net:27017,cluster0-shard-00-01-r9lvk.mongodb.net:27017,cluster0-shard-00-02-r9lvk.mongodb.net:27017/domestic-accounting?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin';
 
 //const mongoUri ='mongodb://aure:WzosYqUrgTToeaHl@cluster0-shard-00-01-r9lvk.mongodb.net:27017';
 
-//const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/domestic-accounting';
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/domestic-accounting';
 //const mongoUri = 'mongodb://aure:jas11jas11@ds131510.mlab.com:31510/heroku_jhtzpgd7';
 
 const error = require('koa-error');
@@ -110,6 +111,9 @@ app.on('error', (err, ctx) =>
     //lo pongo aki para que no pase autenticacion
   
 
+    app.use(tipoGastoRouter.routes());
+
+
     app.use(async (ctx, next) => {
         if (!ctx.isAuthenticated()) {
             ctx.redirect('/auth/login');
@@ -119,7 +123,7 @@ app.on('error', (err, ctx) =>
     });
     
     app.use(inicioRouter.routes());
-    app.use(tipoGastoRouter.routes());
+    
     app.use(gastoRouter.routes());
     
 
