@@ -12,7 +12,7 @@ class TipoGastoRouter {
 
     static async get(ctx) {
 
-        // for(let i=0; i<100000;i++){
+        // for(let i=0; i<500000;i++){
         //      await new TipoGastoModel({descripcion : 'descripcion_' + i.toString()}).save();
         // }
 
@@ -90,6 +90,16 @@ class TipoGastoRouter {
     }
 
 
+     static async createN(ctx) {
+        logger.info(`Creating new tipo de gasto  with body ${ctx.request.body}`);
+        await new TipoGastoModel(ctx.request.body).save();
+        
+          ctx.body = {
+            ok: 1
+        };
+    }
+
+
     static async delete(ctx) {
         logger.info(`Deleting tipo de gasto with id ${ctx.params.id}`);
         const numDeleted = await TipoGastoModel.remove({ _id: mongoose.Types.ObjectId(ctx.params.id) });
@@ -110,10 +120,12 @@ const router = new Router({
 });
 
 router.get('/get/', TipoGastoRouter.get);
-router.get('/', TipoGastoRouter.showget);
+router.get('/', TipoGastoRouter.get);
+//router.get('/', TipoGastoRouter.showget);
 router.get('/edit/:id', TipoGastoRouter.showEdit);
 router.get('/new/', TipoGastoRouter.showNew);
 router.post('/create/', TipoGastoRouter.create);
+router.post('/createN/', TipoGastoRouter.createN);
 router.post('/update/', TipoGastoRouter.update);
 router.get('/delete/:id', TipoGastoRouter.deleteNodes);
 
