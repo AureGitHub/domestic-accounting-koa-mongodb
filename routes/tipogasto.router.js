@@ -12,12 +12,19 @@ class TipoGastoRouter {
 
     static async get(ctx) {
 
-        // for(let i=0; i<3000000;i++){
+        // for(let i=0; i<3000;i++){
         //      await new TipoGastoModel({descripcion : 'descripcion_' + i.toString()}).save();
         // }
 
-        logger.info('Obtaining all tipos de gastos');
-        let lstTipogasto = await TipoGastoModel.find().skip(parseInt(ctx.query.$skip)).limit(parseInt(ctx.query.$top));
+        let sort ={descripcion :  1};
+
+        if(ctx.query.$orderby){
+           sort ={descripcion :  ctx.query.$orderby.split(" ")[1] =="desc" ? -1 : 1 };
+            //sort[""] = ctx.query.$orderby.split(" ")[1]};
+        }
+
+        logger.info('Obtaining all tipos de gastos ' + ctx.query.$orderby);
+        let lstTipogasto = await TipoGastoModel.find().sort(sort).skip(parseInt(ctx.query.$skip)).limit(parseInt(ctx.query.$top));
         let total = await TipoGastoModel.find().count();
 
         if (!lstTipogasto) {
