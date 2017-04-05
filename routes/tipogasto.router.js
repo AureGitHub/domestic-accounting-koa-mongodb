@@ -12,7 +12,7 @@ class TipoGastoRouter {
 
     static async get(ctx) {
 
-        // for(let i=0; i<500000;i++){
+        // for(let i=0; i<3000000;i++){
         //      await new TipoGastoModel({descripcion : 'descripcion_' + i.toString()}).save();
         // }
 
@@ -90,13 +90,35 @@ class TipoGastoRouter {
     }
 
 
+ static async updateN(ctx) {
+        logger.info(`Updating tipo de gasto with id ${ctx.request.body._id}`);
+        let tipogasto = await TipoGastoModel.findById(ctx.request.body._id);
+        if (!tipogasto) {
+            ctx.body = {
+                ok: 0
+            };
+            return;
+        }
+        //tipogasto._doc.descripcion = ctx.request.body.descripcion;
+        tipogasto = Object.assign(tipogasto, ctx.request.body);
+        await tipogasto.save();
+        ctx.body = {
+            ok: 1
+          };
+
+
+
+    }
+
+
+
      static async createN(ctx) {
         logger.info(`Creating new tipo de gasto  with body ${ctx.request.body}`);
         await new TipoGastoModel(ctx.request.body).save();
         
           ctx.body = {
             ok: 1
-        };
+          };
     }
 
 
@@ -126,6 +148,7 @@ router.get('/edit/:id', TipoGastoRouter.showEdit);
 router.get('/new/', TipoGastoRouter.showNew);
 router.post('/create/', TipoGastoRouter.create);
 router.post('/createN/', TipoGastoRouter.createN);
+router.post('/updateN/', TipoGastoRouter.updateN);
 router.post('/update/', TipoGastoRouter.update);
 router.get('/delete/:id', TipoGastoRouter.deleteNodes);
 
