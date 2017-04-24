@@ -2,6 +2,7 @@ const Router = require('koa-router');
 const passport = require('koa-passport');
 const logger = require('logger');
 const UserModel = require('models/user.model');
+var jwt = require("jwt-simple");
 //const bcrypt = require('bcrypt');
 
 const router = new Router({
@@ -10,6 +11,52 @@ const router = new Router({
 
 class AuthRouter {
 
+    static genToken(user) {
+        var expires = AuthRouter.expiresIn(15); // Minutos de session
+
+
+        var token = jwt.encode({
+            exp: expires,
+            user: user
+        }, 'constants.JWT_SECRET');
+
+        return {
+            token: token,
+            expires: expires,
+            user: user
+        };
+    }
+
+    static expiresIn(numMin) {
+        var dateObj = new Date();
+        return dateObj.setMinutes(dateObj.getMinutes() + numMin);
+    }
+
+    static async loginN(ctx) {
+        logger.info(`LoginN `);
+
+        let email = ctx.request.body.email;
+        let password = ctx.request.body.password;
+        
+        let userFind = await UserModel.find({ "email": email, "password": password });
+
+        if (userFind.length > 0) {
+            ctx.body = {
+                Security: AuthRouter.genToken({ email: userFind[0].email })
+            };
+        }
+        else {
+            ctx.body = {
+                Security: null
+            };
+        }
+
+
+
+
+
+
+    }
 
     static async showSignUp(ctx) {
         await ctx.render('pages/sign-up.ejs');
@@ -40,19 +87,21 @@ class AuthRouter {
         await ctx.render('pages/login.ejs', { fail: true });
     }
 
-     static async logout(ctx) {
-         await ctx.logout();
-         await ctx.render('pages/login.ejs');
-        
+    static async logout(ctx) {
+        await ctx.logout();
+        await ctx.render('pages/login.ejs');
+
     }
 
-     static async showError(ctx) {
-        
-         await ctx.render('pages/error.ejs');
-        
+    static async showError(ctx) {
+
+        await ctx.render('pages/error.ejs');
+
     }
 
-  
+
+
+
 
 
 }
@@ -60,6 +109,9 @@ class AuthRouter {
 router.post('/sign-up', AuthRouter.createUser);
 router.get('/sign-up', AuthRouter.showSignUp);
 router.get('/login', AuthRouter.showLogin);
+
+router.post('/loginN', AuthRouter.loginN);
+
 router.get('/logout', AuthRouter.logout);
 router.get('/error', AuthRouter.showError);
 router.post('/login', passport.authenticate('local', {

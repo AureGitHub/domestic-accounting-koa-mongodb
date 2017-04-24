@@ -100,11 +100,11 @@ app.on('error', (err, ctx) =>
 
   
     //Registramos passport
-
+/*
     require('services/auth.service');
 
     app.use(passport.initialize());
-    app.use(passport.session());
+    app.use(passport.session());*/
 
     app.use(authRouter.routes());
 
