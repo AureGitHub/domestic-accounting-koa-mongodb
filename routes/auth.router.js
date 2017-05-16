@@ -42,7 +42,7 @@ class AuthRouter {
 
         if (userFind.length > 0) {
             ctx.body = {
-                Security: AuthRouter.genToken({ email: userFind[0].email })
+                Security: AuthRouter.genToken(userFind)
             };
         }
         else {
