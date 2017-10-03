@@ -1,143 +1,15 @@
-require('app-module-path').addPath(__dirname);
+
 const Koa = require('koa');
-const koaLogger = require('koa-logger');
-const logger = require('logger');
 const body = require('koa-body');
-const mount = require('koa-mount');
-const validate = require('koa-validate');
-const views = require('koa-views');
-const convert = require('koa-convert');
-const session = require('koa-generic-session');
-const mongoose = require('mongoose');
-const passport = require('koa-passport');
-
-
 const authRouter = require('routes/auth.router');
-const inicioRouter = require('routes/inicio.router');
+ const app = new Koa();
 
-const gastoRouter = require('routes/gasto.router');
-const tipoGastoRouter = require('routes/tipogasto.router');
+  app.use(body());
+ app.use(authRouter.routes());
 
-//const mongoUri ='mongodb://aure:WzosYqUrgTToeaHl@cluster0-shard-00-00-r9lvk.mongodb.net:27017,cluster0-shard-00-01-r9lvk.mongodb.net:27017,cluster0-shard-00-02-r9lvk.mongodb.net:27017/domestic-accounting?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin';
-
-//const mongoUri ='mongodb://aure:WzosYqUrgTToeaHl@cluster0-shard-00-01-r9lvk.mongodb.net:27017';
-
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/domestic-accounting';
-//const mongoUri = 'mongodb://aure:jas11jas11@ds131510.mlab.com:31510/heroku_jhtzpgd7';
-
-const error = require('koa-error');
+var port = process.env.PORT || 3000;
+app.listen(port);
 
 
 
-const onDBReady = (err) => {
-    if (err) {
-        logger.error('Error connecting', err);
-        throw new Error('Error connecting', err);
-    }
-
-    const app = new Koa();
-    if (process.env.NODE_ENV === 'dev') {
-        app.use(koaLogger());
-    }
-
-    
-     app.use(error({
-      template: __dirname + '/views/pages/error.ejs',
-      engine: 'ejs'
-    }));
-
-
-app.on('error', (err, ctx) =>
-{
-    logger.error('server error', err);
-    
-}
- 
-);
-
-
-
-    app.keys = ['claveSuperSecreta'];
-
-    var CONFIG = {
-        key: 'koa:sess',
-        /** (string) cookie key (default is koa:sess) */
-        maxAge: 86400000,
-        /** (number) maxAge in ms (default is 1 days) */
-        overwrite: true,
-        /** (boolean) can overwrite or not (default true) */
-        httpOnly: true,
-        /** (boolean) httpOnly or not (default true) */
-        signed: true,
-        /** (boolean) signed or not (default true) */
-    };
-
-
-    validate(app);
-
-    app.use(body());
-    app.use(convert(session(CONFIG, app)));
-
-
-    app.use(async (ctx, next) => {
-        logger.info(`Last request was ${ctx.session.lastRequest}`);
-        ctx.session.lastRequest = new Date();
-        await next();
-    });
-
-    app.use(views(__dirname + '/views', {
-        map: {
-            ejs: 'ejs'
-        }
-    }));
-
-
-   app.use(function *(next) {
-    this.state.title = 'My App';
-    this.state.email = 'me@myapp.com';
-    yield next;
-});
-
-  
-    //Registramos passport
-/*
-    require('services/auth.service');
-
-    app.use(passport.initialize());
-    app.use(passport.session());*/
-
-    app.use(authRouter.routes());
-
-    //lo pongo aki para que no pase autenticacion
-  
-
-    app.use(tipoGastoRouter.routes());
-
-
-    app.use(async (ctx, next) => {
-        if (!ctx.isAuthenticated()) {
-            ctx.redirect('/auth/login');
-            return;
-        }
-        await next();
-    });
-    
-    app.use(inicioRouter.routes());
-    
-    app.use(gastoRouter.routes());
-    
-
-
-    //app.use(mount('/api/v1', filmRouter.routes()));
-   
-
-    app.listen(process.env.PORT || 3000, function (err) {
-        if (err) {
-            logger.error('Error listening in port 3000', err);
-            process.exit(1);
-        }
-        logger.info('Koa server listening in port 3000');
-    });
-}
-
-mongoose.connect(mongoUri, onDBReady);
+console.log('Listening to %s', port);

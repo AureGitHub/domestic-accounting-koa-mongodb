@@ -99,6 +99,11 @@ class AuthRouter {
 
     }
 
+      static async aure(ctx) {
+        ctx.body = 'Aureeeeeee';
+        
+    }
+
 
 
 
@@ -106,11 +111,15 @@ class AuthRouter {
 
 }
 
+
+router.post('/aure', AuthRouter.aure);
+
 router.post('/sign-up', AuthRouter.createUser);
 router.get('/sign-up', AuthRouter.showSignUp);
 router.get('/login', AuthRouter.showLogin);
 
 router.post('/loginN', AuthRouter.loginN);
+
 
 router.get('/logout', AuthRouter.logout);
 router.get('/error', AuthRouter.showError);
