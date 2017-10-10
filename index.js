@@ -1,7 +1,8 @@
 
 const Koa = require('koa');
 const body = require('koa-body');
-const authRouter = require('routes/auth.router');
+const authRouter = require('./routes/auth.router');
+
 
 var cors = require('koa-cors');
 
@@ -9,6 +10,11 @@ const mongoose = require('mongoose');
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/domestic-accounting';
 
  const app = new Koa();
+ 
+ if (process.env.NODE_ENV === 'dev') {
+    
+    }
+    
 
  const onDBReady = (err) => {
     if (err) {

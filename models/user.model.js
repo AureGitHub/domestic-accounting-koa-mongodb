@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 const User = new Schema({
     email: { type: String, required: false, unique: true,  trim: true },
     password: { type: String, required: false, trim: true },
-    salt: { type: String, required: false, trim: true },
-    provider: { type: String, required: true, trim: true, default: 'local' }
+    perfil :  { type: Number , required: true, default: 1 }
 });
 module.exports = mongoose.model('User', User);

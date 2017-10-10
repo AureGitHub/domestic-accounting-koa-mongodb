@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 const passport = require('koa-passport');
-const logger = require('logger');
-const UserModel = require('models/user.model');
+const logger = require('../logger');
+const UserModel = require('../models/user.model');
 var jwt = require("jwt-simple");
 //const bcrypt = require('bcrypt');
 
@@ -27,6 +27,18 @@ class AuthRouter {
         };
     }
 
+    static OnlygenToken(user) {
+        var expires = AuthRouter.expiresIn(15); // Minutos de session
+
+
+        var token = jwt.encode({
+            exp: expires,
+            user: user
+        }, 'constants.JWT_SECRET');
+
+        return token;
+    }
+
     static expiresIn(numMin) {
         var dateObj = new Date();
         return dateObj.setMinutes(dateObj.getMinutes() + numMin);
@@ -39,10 +51,15 @@ class AuthRouter {
         let password = ctx.request.body.password;
         
         let userFind = await UserModel.find({ "email": email, "password": password });
-
+    
         if (userFind.length > 0) {
-            ctx.body = {
-                Security: AuthRouter.genToken(userFind)
+            let userRet = {};
+            userRet.name = userFind[0].email;
+            userRet.perfil = userFind[0].perfil;
+            userRet.token = AuthRouter.OnlygenToken(userFind);
+          
+            ctx.body = { 
+                data : userRet
             };
         }
         else {
