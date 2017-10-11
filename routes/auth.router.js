@@ -64,7 +64,7 @@ class AuthRouter {
         }
         else {
             ctx.body = {
-                Security: null
+                data: null
             };
         }
 
