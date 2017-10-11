@@ -47,6 +47,8 @@ class AuthRouter {
     static async loginN(ctx) {
         logger.info(`LoginN `);
 
+        //ctx.request.headers["authorization-token"]
+
         let email = ctx.request.body.email;
         let password = ctx.request.body.password;
         
